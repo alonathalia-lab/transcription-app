@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copiar requirements e package files
 COPY requirements.txt ./
 COPY package.json ./
-COPY package-lock.json . 2>/dev/null || true
+COPY package-lock.json .
 
 # Instalar PyTorch CPU pré-compilado (MUITO mais rápido!)
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
