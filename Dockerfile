@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements Python
-COPY backend-requirements.txt ./requirements.txt
+COPY requirements.txt ./requirements.txt
 
 # Instalar dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
@@ -32,8 +32,8 @@ FROM node:18-alpine as node-builder
 
 WORKDIR /app
 
-COPY backend-package.json ./package.json
-COPY backend-package-lock.json ./package-lock.json 2>/dev/null || true
+COPY package.json ./package.json
+COPY package-lock.json ./package-lock.json 2>/dev/null || true
 
 RUN npm ci --only=production
 
@@ -58,11 +58,11 @@ COPY --from=python-base /usr/local/bin /usr/local/bin
 COPY --from=node-builder /app/node_modules ./node_modules
 
 # Copiar arquivos do app
-COPY backend-server.js ./server.js
-COPY backend-audio_processor.py ./audio_processor.py
-COPY backend-voice_embedding.py ./voice_embedding.py
-COPY backend-package.json ./package.json
-COPY backend-.env.example ./.env
+COPY server.js ./server.js
+COPY audio_processor.py ./audio_processor.py
+COPY voice_embedding.py ./voice_embedding.py
+COPY package.json ./package.json
+COPY .env.example ./.env
 
 # Instalar Node.js runtime
 RUN apt-get update && apt-get install -y \
