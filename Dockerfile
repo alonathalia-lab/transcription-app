@@ -84,3 +84,4 @@ ENV PORT=3000
 
 # Iniciar aplicação
 CMD ["node", "server.js"]
+   # Rebuild trigger
