@@ -33,7 +33,7 @@ FROM node:18-alpine as node-builder
 WORKDIR /app
 
 COPY package.json ./package.json
-COPY package-lock.json ./package-lock.json 2>/dev/null || true
+COPY package-lock.json ./package-lock.json
 
 RUN npm ci --only=production
 
