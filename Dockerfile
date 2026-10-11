@@ -1,5 +1,5 @@
-# Usar imagem PyTorch pré-compilada (MUITO mais rápida!)
-FROM pytorch/pytorch:2.0.1-runtime-cpu
+# Imagem Python base
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -18,7 +18,10 @@ COPY requirements.txt ./
 COPY package.json ./
 COPY package-lock.json . 2>/dev/null || true
 
-# Instalar dependências Python (torch já está na imagem!)
+# Instalar PyTorch CPU pré-compilado (MUITO mais rápido!)
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Instalar resto das dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Instalar dependências Node.js
