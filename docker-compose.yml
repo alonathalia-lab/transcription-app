@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  # ==========================================
+  # Backend - Node.js + Python
+  # ==========================================
+  backend:
+    build:
+      context: .
+      dockerfile: backend-Dockerfile
+    container_name: transcricao-backend
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LOG_LEVEL: info
+    volumes:
+      - ./backend-audio_processor.py:/app/audio_processor.py:ro
+      - ./backend-voice_embedding.py:/app/voice_embedding.py:ro
+      - ./backend-server.js:/app/server.js:ro
+      - transcricao-models:/root/.cache/huggingface
+      - transcricao-temp:/tmp
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - transcricao-network
+
+  # ==========================================
+  # Nginx - Reverse Proxy (Opcional)
+  # ==========================================
+  nginx:
+    image: nginx:alpine
+    container_name: transcricao-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - transcricao-network
+
+networks:
+  transcricao-network:
+    driver: bridge
+
+volumes:
+  transcricao-models:
+    driver: local
+  transcricao-temp:
+    driver: local
