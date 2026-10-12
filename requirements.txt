@@ -1,38 +1,7 @@
-# ========================================
-# Dependências Python para Backend
-# ========================================
-
-# Transcrição de Fala
-openai-whisper==20240314
-
-# Speaker Diarization (Identificação de Falantes)
-pyannote.audio==3.0.0
-pyannote.core==5.0.0
-pyannote.database==5.0.0
-
-# Deep Learning / Neural Networks
-torch==2.0.1
-torchaudio==2.0.2
-torchvision==0.15.2
-
-# Processamento de Áudio
-librosa==0.10.0
-numpy==1.24.3
-scipy==1.11.0
-
-# Embedding / Similaridade
-scikit-learn==1.3.0
-
-# Web Framework (se usado)
 flask==3.0.0
-
-# Utilitários
 python-dotenv==1.0.0
 pydantic==2.0.0
-typing-extensions==4.7.1
-
-# Logging
-loguru==0.7.0
-
-# Opcional: Aceleração GPU
-# pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
+requests==2.31.0
+numpy==1.24.3
+scipy==1.11.0
+librosa==0.10.0
