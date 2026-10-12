@@ -18,7 +18,7 @@ COPY requirements.txt ./
 COPY package*.json ./
 
 # Instalar PyTorch CPU pré-compilado (MUITO mais rápido!)
-RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
 
 # Instalar resto das dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
